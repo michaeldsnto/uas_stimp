@@ -88,7 +88,7 @@ export default class App extends Component {
       return (
         <NavigationContainer>
           <Drawer.Navigator initialRouteName="SignIn" drawerContent={props => <this.CustomDrawerContent {...props} />}>
-            <Drawer.Screen name="Dolan Yuk" component={Nav1}
+            <Drawer.Screen name="Jadwal" component={Nav1}
               options={{ headerShown: true }} />
             <Drawer.Screen name="Cari" component={CariPage} />
             <Drawer.Screen name="Profile" component={ProfilePage} />
