@@ -41,7 +41,7 @@ export default class SignInPage extends Component {
 
             try {
                 await this.saveUserData(email, fullName, photoUrl, userId);
-                alert('Login successful');
+                alert('Login successfull');
                 NativeModules.DevSettings.reload();
             } catch (e) {
                 console.error('Error during login:', e);

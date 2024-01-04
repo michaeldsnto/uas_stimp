@@ -27,7 +27,7 @@ export default class SignUpPage extends Component {
             const json = await response.json();
     
             if (json.result === 'success') {
-                alert('Daftar berhadil');
+                alert('Daftar berhasil');
                 this.props.navigation.navigate('SignIn');
             } else {
                 alert('Gagal Daftar: ' + json.message);

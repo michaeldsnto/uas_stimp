@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, Button, Picker } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { DatePickerModal } from 'react-native-paper-dates';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class BuatJadwalPage extends Component {
   constructor(props) {
@@ -22,7 +23,6 @@ export default class BuatJadwalPage extends Component {
   }
 
   submitData = () => {
-
     const options = {
       method: 'POST',
       headers: new Headers({
@@ -77,9 +77,10 @@ export default class BuatJadwalPage extends Component {
 
   _onPressButton = () => {
       this.submitData();
-  }
+  };
+
   showTanggalPicker = () => {
-    this.setState({ isDatePickerVisible: true });
+    this.setState({ isDatePickerVisible: true, isTimePickerVisible: false });
   };
 
   hideDatePicker = () => {
@@ -87,30 +88,32 @@ export default class BuatJadwalPage extends Component {
   };
 
   showTImePicker = () => {
-    this.setState({ isTimePickerVisible: true });
+    this.setState({ isTimePickerVisible: true, isDatePickerVisible: false });
   };
 
   hideTimePicker = () => {
     this.setState({ isTimePickerVisible: false });
   };
 
+  hidePickers = () => {
+    this.setState({ isTimePickerVisible: false, isDatePickerVisible: false });
+  };
 
-  handleDatePicked = date => {
+  handleDatePicked = (date) => {
     this.setState({
       tanggal: date.date.getFullYear() + "-" +
         (date.date.getMonth() + 1) + "-" +
-        date.date.getDate()
+        date.date.getDate(),
     });
     this.hideDatePicker();
   };
 
-  handleTimePicked = time => {
+  handleTimePicked = (time) => {
     this.setState({
-      jam: time.date.getHours() + ":" + time.date.getMinutes()
+      jam: time.date.getHours() + ":" + time.date.getMinutes(),
     });
-    this.hideTimePicker();
+    this.hidePickers();
   };
-
 
   render() {
     return (
@@ -123,7 +126,7 @@ export default class BuatJadwalPage extends Component {
             onChangeText={(tanggal) => this.setState({ tanggal })}
             value={this.state.tanggal}
           />
-          <Button title="Pilih tanggal" onPress={this.showTanggalPicker} />
+          <Ionicons name='calendar-outline' style={styles.icon} size={20} onPress={this.showTanggalPicker} />
         </View>
         <DateTimePicker
           isVisible={this.state.isDatePickerVisible}
@@ -146,13 +149,13 @@ export default class BuatJadwalPage extends Component {
             onChangeText={(jam) => this.setState({ jam })}
             value={this.state.jam}
           />
-          <Button title="Pilih jam" onPress={this.showTImePicker} />
+          <Ionicons name='time-outline' style={styles.icon} size={20} onPress={this.showTImePicker} />
         </View>
         <DateTimePicker
           isVisible={this.state.isTimePickerVisible}
           mode="time"
           onConfirm={this.handleTimePicked}
-          onCancel={this.hideTimePicker}
+          onCancel={this.hidePickers}
         />
         <DatePickerModal
           locale="en"
@@ -162,7 +165,6 @@ export default class BuatJadwalPage extends Component {
           date={this.state.jam}
           onConfirm={this.handleTimePicked}
         />
-
 
         <TextInput
           style={styles.input}
@@ -181,8 +183,7 @@ export default class BuatJadwalPage extends Component {
         <Picker
           selectedValue={this.state.selectedDolan}
           style={styles.input}
-          onValueChange={(itemValue) => this.setState({ selectedDolan: itemValue })}
-        >
+          onValueChange={(itemValue) => this.setState({ selectedDolan: itemValue })}>
           {this.state.dolanUtamaData.length > 0 ? (
             this.state.dolanUtamaData.map((item, index) => (
               <Picker.Item key={index} label={item.nama_dolan} value={item.id} />
@@ -203,7 +204,6 @@ export default class BuatJadwalPage extends Component {
       </View>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -232,6 +232,18 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginLeft: 20,
     marginBottom: 5,
+  },
+  viewRow: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    marginRight: 10,
+    paddingHorizontal: 10,
+    width: '90%',
+  },
+  icon: {
+    marginLeft: 15,
   },
 });
 

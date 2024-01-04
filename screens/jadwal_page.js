@@ -9,7 +9,7 @@ export default class JadwalPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {},
+            data: [],
             user_id: 0,
             isModalVisible: false,
             dataAnggota: {},
@@ -43,7 +43,7 @@ export default class JadwalPage extends Component {
                 .then(response => response.json())
                 .then(resjson => {
                     this.setState({
-                        data: resjson.data
+                        data: resjson.data || [],
                     });
                 })
                 .catch(error => {
@@ -53,6 +53,7 @@ export default class JadwalPage extends Component {
             console.log(error);
         }
     }
+    
     fetchDataAnggota = (jadwal_id, jumlahAnggota, batasAnggota) => {
         const options = {
             method: 'POST',
@@ -141,7 +142,7 @@ export default class JadwalPage extends Component {
             <View style={styles.container}>
                 {data && data.length === 0 ? (
                     <Text style={styles.emptyText}>
-                        Jadwal masih kosong nih. Cari teman main atau buat jadwal baru aja
+                        Jadwal masih kosong nih <br></br> Cari teman main atau buat jadwal baru aja
                     </Text>
                 ) : (
                     <FlatList
@@ -181,7 +182,6 @@ export default class JadwalPage extends Component {
             </View>
         );
     }
-
 }
 
 const styles = StyleSheet.create({
@@ -298,5 +298,4 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
     },
-
 });
