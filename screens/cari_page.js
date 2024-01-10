@@ -134,6 +134,8 @@ class CariPage extends React.Component {
 
 
   renderItem = ({ item }) => {
+    const isFull = item.jumlah_anggota >= item.minimal_member;
+
     return (
       <Card style={styles.cardContainer}>
         <Card.Image style={styles.cardPhoto} source={{ uri: item.photoUrl }} />
@@ -144,9 +146,16 @@ class CariPage extends React.Component {
         <TouchableOpacity style={styles.anggota}><Text><IconButton icon="car" size={20} color="#000" onPress={() => this.fetchDataAnggota(item.id, item.jumlah_anggota, item.minimal_member)} />{item.jumlah_anggota}/{item.minimal_member} orang </Text></TouchableOpacity>
         <Text style={styles.alamat}>{item.lokasi}</Text>
         <Text>{item.alamat}</Text>
-        <TouchableOpacity style={styles.joinButton} onPress={() => this.handleJoinButton(item.id)}>
-        <Text style={styles.joinText}> <IconButton icon="door-open" size={20} color="#000" />Join</Text>
-      </TouchableOpacity>
+        {
+          isFull ? (
+            <TouchableOpacity style={[styles.joinButton, { backgroundColor: 'grey' }]} disabled>
+              <Text style={styles.joinText}> <IconButton icon="door-open" size={20} color="#000" />Join</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.joinButton} onPress={() => this.handleJoinButton(item.id)}>
+              <Text style={styles.joinText}> <IconButton icon="door-open" size={20} color="#000" />Join</Text>
+            </TouchableOpacity>
+        )}
       </Card>
     );
   };
